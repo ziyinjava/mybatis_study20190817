@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.UserMapper">
+
+    <!--查询操作-->
+    <!--<select id="findAll" resultType="user2">
+        SELECT id u_id,username u_username,PASSWORD u_password FROM mybatis
+    </select>-->
+
+    <resultMap id="xxoo" type="user2">
+        <id property="u_id" column="id"/>
+        <result property="u_username" column="username"/>
+        <result property="u_password" column="password"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="xxoo">
+        SELECT * FROM mybatis
+    </select>
+
+    <!--根据id进行查询-->
+    <select id="findById" parameterType="int" resultType="user">
+        select * from adminuser where id=#{id}
+    </select>
+
+    <select id="countUsers" resultType="int">
+        select count(*) from mybatis;
+    </select>
+
+    <select id="findUserByIdORUsername" resultType="user" parameterType="map">
+        <!--select * from mybatis where id = #{arg0} OR username like #{arg1}-->
+        <!--select * from mybatis where id = #{abc} OR username like #{xyz}-->
+        select * from mybatis where id = #{aa} OR username like #{bb}
+    </select>
+
+    <select id="findUserNames" resultType="String">
+        select username from mybatis
+    </select>
+
+    <select id="findUserMaps" resultType="map">
+        select * from mybatis
+    </select>
+
+    <select id="findUserMapByID" resultType="map" parameterType="int">
+        select * from mybatis where id = #{userid}
+    </select>
+
+    <insert id="insertUser" parameterType="user">
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into mybatis values (#{id},#{username},#{password})
+    </insert>
+</mapper>

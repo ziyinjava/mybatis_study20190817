@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--通过properties标签加载外部properties文件-->
+    <properties resource="jdbc.properties"></properties>
+
+    <!--自定义别名-->
+    <typeAliases>
+        <package name="com.itheima.domain"/>
+    </typeAliases>
+
+    <!--数据源环境-->
+    <environments default="developement">
+        <environment id="developement">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--加载映射文件-->
+    <mappers>
+        <!-- 加载xml格式的映射文件 -->
+        <mapper resource="com/itheima/mapper/UserMapper.xml"></mapper>
+        <!-- 加载注解格式的文件 -->
+        <!--<mapper class="com.itheima.dao"/>-->
+        <!-- 加载xml格式和注解格式 -->
+        <!--<package name="com.itheima.dao"/>-->
+    </mappers>
+
+</configuration>

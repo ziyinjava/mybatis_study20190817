@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.UserMapper">
+
+    <!--sql语句抽取-->
+    <sql id="selectUser">select * from mybatis</sql>
+
+    <!--<resultMap id="xxx" type="user">
+        &lt;!&ndash;设置主键对应关系&ndash;&gt;
+        <id property="" column=""></id>
+        &lt;!&ndash;设置非主键对应关系&ndash;&gt;
+        <result property="" column=""/>
+    </resultMap>-->
+
+    <select id="findByCondition" parameterType="user" resultType="user">
+        <!--<include refid="selectUser"></include>-->
+        select * from mybatis
+        <where>
+            <if test="id!=0">
+                and id=#{id}
+            </if>
+            <if test="username!=null">
+                and username=#{username}
+            </if>
+            <if test="password!=null">
+                and password=#{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIds" parameterType="list" resultType="user">
+        <include refid="selectUser"></include>
+        <where>
+            <foreach collection="list" open="id in(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+</mapper>

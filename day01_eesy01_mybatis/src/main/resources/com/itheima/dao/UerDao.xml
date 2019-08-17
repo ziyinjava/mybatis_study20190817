@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.UserDao">
+
+
+    <sql id="baseColumn">id, username, birthday, sex, address</sql>
+
+    <!-- 配置查询所有操作 -->
+    <select id="findAll" resultType="com.itheima.bo.User">
+
+        select <include refid="baseColumn"/> from user
+    </select>
+
+    <insert id="save" parameterType="com.itheima.bo.User" >
+        insert into user values(null, #{username}, #{sex}, #{address}, #{birthday})
+    </insert>
+
+    <update id="update" parameterType="com.itheima.bo.User">
+       update user set username = #{username}, birthday = #{birthday}, sex = #{sex}, address = #{address} where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+<!-- 传递一个参数时,而且是基本数据类型,占位符名称是什么都可以 -->
+      delete from user where id = #{id}
+    </delete>
+
+    <select id="getUserById"  parameterType="int" resultType="user">
+        select * from user where id = #{id}
+    </select>
+
+
+    <select id="getUserByCondition" parameterType="user" resultType="user">
+        select * from user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null">
+                and username like CONCAT("%",#{username},"%");
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="address != null">
+                and address = #{address}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserByIds" parameterType="list" resultType="user">
+        select * from user
+        <where>
+            <foreach collection="list" open="id in (" item="id" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+
+    </select>
+</mapper>
